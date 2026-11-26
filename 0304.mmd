@@ -1,0 +1,37 @@
+classDiagram
+    class Cart {
+        -products: List~Product~
+        -optionalDiscount: Discount
+        +addProduct(product: Product): void
+        +getPriceProducts(): double
+        +removeProduct(product: Product): void
+        +getTotalPrice(): double
+        +setDiscount(discount: Discount): void
+    }
+
+    class Product { 
+        -name: String
+        -price: double
+        -category: String
+    }
+
+    class Discount {
+        <<interface>>
+        +apply(total: double): double
+    }
+
+    class PercentageDiscount {
+        -percentage: double
+        +apply(total: double): double
+}
+
+class FixedDiscount {
+    -amount: double
+    +apply(total: double): double
+}
+
+    Discount <|.. PercentageDiscount : realizacion
+    Discount <|.. FixedDiscount : realizacion
+
+    Cart "1" o-- "0..*" Product : agregacion
+    Cart "1" --> "0..1" Discount : asociacion
