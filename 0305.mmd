@@ -66,25 +66,36 @@ classDiagram
         
         Consola <|-- ConsolaEdicionLimitada : Herencia
         %% Es una herencia porque edicion limitada es un tipo de consola.
+        
         UnidadConsola "0..*" --> "1" Consola : Asociacion
         %% Asociacion porque cada unidad pertenece a un modelo de consola.
-        Cliente "0..*" --> "0..*" Habitacion : Asociacion
+
+        Cliente "0..*" --> "0..*" Habitacion : Asociacion        
         %% Asociacion porque uente puede alojaerse en varias habitaciones y una habitacion puede alojar a varios clientes.
+
         Hotel "1" *-- "0..*" Habitacion : Composicion
         %% Composicion porque las habitaciones son parte del hotel, por ellas mismas no existen.
+
         Hotel "1" o-- "0..*" UnidadConsola : Agregacion
         %% Agregación porque las consolas sin el hotel se pueden utilizar.
+
         Hotel "1" --> "0..*" Cliente : Asociacion
         %% Asociacion porque los clientes son independientes del hotel.
-        Habitacion "0..1" --> "0..*" UnidadConsola : Asociacon
+
+        Habitacion "0..1" --> "0..*" UnidadConsola : Asociacion
         %% Asociancion porque las consolas las pueden utilizar en diferentes habitaciones.
+
         Habitacion <|-- RetroGamer : Herencia
         %% Es herencia porque es un tipo de habitacion
+
         Habitacion <|-- Basica : Herencia
-         %% Es herencia porque es un tipo de habitacion         
+         %% Es herencia porque es un tipo de habitacion   
+
         Habitacion <|-- Arcade : Herencia
-        %% Es herencia porque es un tipo de habitacion        
+        %% Es herencia porque es un tipo de habitacion   
+
         Habitacion <|-- Premium : Herencia
-        %% Es herencia porque es un tipo de habitacion      
+        %% Es herencia porque es un tipo de habitacion   
+
         Hotel ..> Categoria : Dependencia.
         %% Dependencia porque Hotel la utilica como dato.
