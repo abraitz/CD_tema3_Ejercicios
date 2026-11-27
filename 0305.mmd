@@ -1,0 +1,90 @@
+classDiagram
+     class Hotel {
+        -nombre: String
+        -direccion: String
+        -categoria: Categoria 
+        -habitaciones: List~Habitacion~
+        -inventarioConsola: List~UnidadConsola~  
+        -clientes: List~Cliente~ 
+        +moverConsola(consola: UnidadConsola, habitacionOrigen: Habitacion, habitacionDestino: Habitacion): boolean
+        +comprarConsola(consola: Consola): UnidadConsola
+        +eliminarConsola( consola: UnidadConsola): void
+        +registrarCliente(cliente: Cliente): void
+        +consultarHistorialCliente(cliente: Cliente): List~Habitacion~
+        }
+
+     class Categoria {
+        <<enumeration>>
+        TRES_ESTRELLAS
+        CUATRO_ESTRELLAS
+        CINCO_ESTRELLAS
+    }
+    
+     class Habitacion {
+        <<abstract>>
+        -identificador: String
+        -precioNoche: double
+        -libre: boolean
+               
+        +alquilarConsola (consola: UnidadConsola): boolean           
+     }
+
+     class Basica {
+     }
+
+     class Arcade {
+     }
+
+     class Premium {
+     }
+
+     class RetroGamer {
+      %% Solo permite alquilar Consola Edicion Limitada
+        +alquilarConsola (consola: UnidadConsola): boolean        
+     }
+     
+     class Consola {
+        -codigo: String
+        -nombre: String
+        -marca: String
+        -anoLanzamiento: int        
+     }    
+
+     class UnidadConsola {
+        -identificador: String
+        -fechaAdquisicion: Date
+     }
+                
+     class ConsolaEdicionLimitada {        
+     }
+
+     class Cliente {
+        -nombre: String
+        -dni: String
+        -fechaNacimiento: Date
+     }
+        
+        Consola <|-- ConsolaEdicionLimitada : Herencia
+        %% Es una herencia porque edicion limitada es un tipo de consola.
+        UnidadConsola "0..*" --> "1" Consola : Asociacion
+        %% Asociacion porque cada unidad pertenece a un modelo de consola.
+        Cliente "0..*" --> "0..*" Habitacion : Asociacion
+        %% Asociacion porque uente puede alojaerse en varias habitaciones y una habitacion puede alojar a varios clientes.
+        Hotel "1" *-- "0..*" Habitacion : Composicion
+        %% Composicion porque las habitaciones son parte del hotel, por ellas mismas no existen.
+        Hotel "1" o-- "0..*" UnidadConsola : Agregacion
+        %% Agregación porque las consolas sin el hotel se pueden utilizar.
+        Hotel "1" --> "0..*" Cliente : Asociacion
+        %% Asociacion porque los clientes son independientes del hotel.
+        Habitacion "0..1" --> "0..*" UnidadConsola : Asociacon
+        %% Asociancion porque las consolas las pueden utilizar en diferentes habitaciones.
+        Habitacion <|-- RetroGamer : Herencia
+        %% Es herencia porque es un tipo de habitacion
+        Habitacion <|-- Basica : Herencia
+         %% Es herencia porque es un tipo de habitacion         
+        Habitacion <|-- Arcade : Herencia
+        %% Es herencia porque es un tipo de habitacion        
+        Habitacion <|-- Premium : Herencia
+        %% Es herencia porque es un tipo de habitacion      
+        Hotel ..> Categoria : Dependencia.
+        %% Dependencia porque Hotel la utilica como dato.
